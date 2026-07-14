@@ -1,0 +1,18 @@
+name: deploy
+
+on:
+  push:
+    branches: [ "master" ]
+
+jobs:
+  deploy:
+
+    runs-on: ubuntu-latest
+
+
+    steps:
+    - uses: actions/checkout@v4
+    - run: docker build -t 983046/todo-app
+    - run: echo"${{secrets.DOCKERHUB_PASSWORD}}" | docker login  -u ${{secrets.DOCKERHUB_USERNAME}} --password-stdin
+    - run: docker push 983046/todo-app:latest
+    
